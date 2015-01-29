@@ -1,9 +1,15 @@
 package com.example.memberregister;
 
+import java.sql.SQLException;
+
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.data.util.sqlcontainer.SQLContainer;
+import com.vaadin.data.util.sqlcontainer.connection.JDBCConnectionPool;
+import com.vaadin.data.util.sqlcontainer.connection.SimpleJDBCConnectionPool;
+import com.vaadin.data.util.sqlcontainer.query.TableQuery;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
@@ -16,6 +22,25 @@ import com.vaadin.ui.themes.Reindeer;
 @SuppressWarnings("serial")
 @Theme("memberregister")
 public class MemberregisterUI extends UI {
+	
+	private SQLContainer createContainer(){
+		try{
+			final JDBCConnectionPool pool = new SimpleJDBCConnectionPool(
+					"com.mysql.jdbc.Driver",
+					"jdbc:mysql://localhost:3306/raporty_syteline", "root", "");
+			TableQuery tb = new TableQuery("jos_users", pool);
+			SQLContainer container = new SQLContainer(tb);
+//			addCleanupListener (new CleanupListener(){
+//				public void Cleanup(CleanupEvent event){
+//					pool.destroy();
+//				}
+//			});
+			return container;
+		} catch (SQLException e){
+			throw new RuntimeException(e);
+		}
+		
+	}
 
 	@WebServlet(value = "/*", asyncSupported = true, initParams = {
 			@WebInitParam(name = "ui", value = "com.example.memberregister.MemberregisterUI"),
@@ -36,9 +61,13 @@ public class MemberregisterUI extends UI {
 		HorizontalLayout content = new HorizontalLayout();
 		content.setSizeFull();
 		layout.addComponent(content);
+		layout.setExpandRatio(content, 1);
+		
+		SQLContainer container = createContainer();
+				
 		
 		Navigator navigator = new Navigator(this, content);
-		navigator.addView("", new MemberListView());
+		navigator.addView("", new MemberListView(container));
 		
 		navigator.navigateTo("");
 		

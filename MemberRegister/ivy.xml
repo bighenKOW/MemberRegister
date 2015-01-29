@@ -37,5 +37,6 @@
 		<!-- Compiler for custom widget sets. Should not be deployed -->
 		<dependency org="com.vaadin" name="vaadin-client-compiler"
 			rev="&vaadin.version;" conf="widgetset-compile->default" />
+		<dependency org="mysql" name="mysql-connector-java" rev="5.1.34" />
 	</dependencies>
 </ivy-module>

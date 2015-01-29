@@ -1,7 +1,6 @@
 package com.example.memberregister;
 
-import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.Widget;
+import com.vaadin.data.util.sqlcontainer.SQLContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
@@ -10,29 +9,44 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
 
-@SuppressWarnings("deprecation")
 public class MemberListView extends CustomComponent implements View {
 	
-	public MemberListView(){
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+
+	public MemberListView(SQLContainer container){
+		setSizeFull();
+		
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSizeFull();
 		setCompositionRoot(layout);
 		
-		Table table = new Table();
+		Table table = new MembersTable(container);
 		table.setSizeFull();
 		
 		layout.addComponent(table);
+		layout.setExpandRatio(table, 1);
 		
-		layout.addComponent(new Button("Add new", new ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				
-			}
-		}));
 		
-	}
+		// Have a component that fires click events
+		final Button button = new Button("Add new");
+		        
+		// Handle the events with an anonymous class
+		button.addClickListener(new Button.ClickListener() {
+		    public void buttonClick(ClickEvent event) {
+		        button.setCaption("You made me click!");
+		    }
+		});		
+		
+		layout.addComponent(button);
+		
+		}
+		
+	
 
 	@Override
 	public void enter(ViewChangeEvent event) {
