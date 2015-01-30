@@ -37,8 +37,13 @@ public class MemberListView extends CustomComponent implements View {
 		        
 		// Handle the events with an anonymous class
 		button.addClickListener(new Button.ClickListener() {
-		    public void buttonClick(ClickEvent event) {
-		        button.setCaption("You made me click!");
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void buttonClick(ClickEvent event) {
+		        getUI().getNavigator().navigateTo("member/new");
 		    }
 		});		
 		

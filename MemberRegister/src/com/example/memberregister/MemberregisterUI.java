@@ -27,8 +27,8 @@ public class MemberregisterUI extends UI {
 		try{
 			final JDBCConnectionPool pool = new SimpleJDBCConnectionPool(
 					"com.mysql.jdbc.Driver",
-					"jdbc:mysql://localhost:3306/raporty_syteline", "root", "");
-			TableQuery tb = new TableQuery("jos_users", pool);
+					"jdbc:mysql://192.168.0.30:3306/person", "henryk", "pasjans");
+			TableQuery tb = new TableQuery("person", pool);
 			SQLContainer container = new SQLContainer(tb);
 //			addCleanupListener (new CleanupListener(){
 //				public void Cleanup(CleanupEvent event){
@@ -68,6 +68,7 @@ public class MemberregisterUI extends UI {
 		
 		Navigator navigator = new Navigator(this, content);
 		navigator.addView("", new MemberListView(container));
+		navigator.addView("member", new MemberView(container));
 		
 		navigator.navigateTo("");
 		

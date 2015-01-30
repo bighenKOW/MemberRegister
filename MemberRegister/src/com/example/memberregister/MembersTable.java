@@ -7,6 +7,7 @@ public class MembersTable extends Table {
 	
 	public MembersTable(SQLContainer container){
 		setContainerDataSource(container);
+		setVisibleColumns(new String[] {"forname", "lastname","city", "phone"});
 	}
 	
 
