@@ -1,9 +1,13 @@
 package com.example.memberregister;
 
+import java.sql.SQLException;
+
 import com.sun.org.apache.bcel.internal.generic.FieldGen;
 import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.PropertyId;
+import com.vaadin.data.util.sqlcontainer.RowId;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -29,6 +33,7 @@ public class MemberView extends CustomComponent implements View {
 	private TextField phoneTextField;
 	
 	private final SQLContainer container;
+	private FieldGroup fieldGroup;
 	public MemberView(SQLContainer container) {
 		this.container = container;
 		VerticalLayout layout = new VerticalLayout();
@@ -52,7 +57,16 @@ public class MemberView extends CustomComponent implements View {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				
+				try {
+					fieldGroup.commit();
+					container.commit();
+				} catch (CommitException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -61,7 +75,7 @@ public class MemberView extends CustomComponent implements View {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				
+				fieldGroup.discard();
 			}
 		});
 		Button closeButton = new Button("Close");
@@ -69,7 +83,8 @@ public class MemberView extends CustomComponent implements View {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				
+				getUI().getNavigator().navigateTo("");
+						
 			}
 		});
 
@@ -92,10 +107,11 @@ public class MemberView extends CustomComponent implements View {
 			Object itemId = container.addItem();
 			item = container.getItem(itemId);
 			
-			FieldGroup fieldGroup = new FieldGroup(item);
+			fieldGroup = new FieldGroup(item);
 			fieldGroup.bindMemberFields(this);
-			
-			
+		} else {
+			long id = Long.valueOf(event.getParameters());
+			item = container.getItem(new RowId (new Object [] {id}));
 		}
 			
 
