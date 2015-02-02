@@ -9,7 +9,7 @@ public class MembersTable extends Table {
 	
 	private static final Action EDIT_ACTION = new Action("Edit");
 	private static final Action DELETE_ACTION = new Action("Delete");
-	
+	private static final Action WTF_ACTION = new Action("Wtf?");
 	
 	
 	public MembersTable(SQLContainer container){
@@ -23,14 +23,15 @@ public class MembersTable extends Table {
 				if (action == EDIT_ACTION) {
 					getUI().getNavigator().navigateTo("member/" + target);
 				} else if (action == DELETE_ACTION) {
-					
+					getUI().addWindow( new DeleteConfirmationDialog(container,target));
+			
 				}
 						
 			}
 			
 			@Override
 			public Action[] getActions(Object target, Object sender) {
-				return new Action[]{EDIT_ACTION, DELETE_ACTION};
+				return new Action[]{EDIT_ACTION, DELETE_ACTION, WTF_ACTION};
 			}
 		});
 	

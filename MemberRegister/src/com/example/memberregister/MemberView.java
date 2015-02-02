@@ -107,13 +107,13 @@ public class MemberView extends CustomComponent implements View {
 			Object itemId = container.addItem();
 			item = container.getItem(itemId);
 			
-			fieldGroup = new FieldGroup(item);
-			fieldGroup.bindMemberFields(this);
 		} else {
 			long id = Long.valueOf(event.getParameters());
 			item = container.getItem(new RowId (new Object [] {id}));
 		}
 			
+		fieldGroup = new FieldGroup(item);
+		fieldGroup.bindMemberFields(this);
 
 
 	}

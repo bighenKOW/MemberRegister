@@ -27,7 +27,7 @@ public class MemberregisterUI extends UI {
 		try{
 			final JDBCConnectionPool pool = new SimpleJDBCConnectionPool(
 					"com.mysql.jdbc.Driver",
-					"jdbc:mysql://192.168.0.30:3306/person", "henryk", "pasjans");
+					"jdbc:mysql://localhost:3306/person", "root", "");
 			TableQuery tb = new TableQuery("person", pool);
 			SQLContainer container = new SQLContainer(tb);
 //			addCleanupListener (new CleanupListener(){
