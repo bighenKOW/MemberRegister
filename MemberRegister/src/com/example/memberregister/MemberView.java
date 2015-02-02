@@ -9,6 +9,7 @@ import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.data.util.sqlcontainer.RowId;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
+import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
@@ -34,6 +35,7 @@ public class MemberView extends CustomComponent implements View {
 	
 	private final SQLContainer container;
 	private FieldGroup fieldGroup;
+	private TextField emailTextField;
 	public MemberView(SQLContainer container) {
 		this.container = container;
 		VerticalLayout layout = new VerticalLayout();
@@ -51,6 +53,10 @@ public class MemberView extends CustomComponent implements View {
 		phoneTextField = new TextField("Phone");
 		phoneTextField.setNullRepresentation("");
 		layout.addComponent(phoneTextField);
+		emailTextField = new TextField("Email");
+		emailTextField.setNullRepresentation("");
+//		emailTextField.addValidator(new EmailValidator("Wrong"));
+		layout.addComponent(emailTextField);
 		
 		Button saveButton = new Button("Save");
 		saveButton.addClickListener(new ClickListener() {
@@ -106,14 +112,15 @@ public class MemberView extends CustomComponent implements View {
 		if ("new".equals(event.getParameters())){
 			Object itemId = container.addItem();
 			item = container.getItem(itemId);
+
+			fieldGroup = new FieldGroup(item);
+			fieldGroup.bindMemberFields(this);
 			
 		} else {
 			long id = Long.valueOf(event.getParameters());
 			item = container.getItem(new RowId (new Object [] {id}));
 		}
 			
-		fieldGroup = new FieldGroup(item);
-		fieldGroup.bindMemberFields(this);
 
 
 	}

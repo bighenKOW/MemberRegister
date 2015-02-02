@@ -28,6 +28,7 @@ public class DeleteConfirmationDialog extends Window {
 		Label label = new Label("Do you want to delete the person ?");
 		
 		layout.addComponent(label);
+		layout.setSpacing(true);
 		
 		Button yesButton = new Button("Yes");
 		yesButton.addClickListener(new Button.ClickListener() {

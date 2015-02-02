@@ -20,7 +20,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
 
 @SuppressWarnings("serial")
-@Theme("memberregister")
+@Theme("memberregistertheme")
 public class MemberregisterUI extends UI {
 	
 	private SQLContainer createContainer(){
@@ -51,6 +51,7 @@ public class MemberregisterUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		final VerticalLayout layout = new VerticalLayout();
+		layout.setMargin(true);
 		layout.setSizeFull();
 		setContent(layout);
 		

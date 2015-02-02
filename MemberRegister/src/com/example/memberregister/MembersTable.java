@@ -3,6 +3,8 @@ package com.example.memberregister;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
 import com.vaadin.event.Action;
 import com.vaadin.event.Action.Handler;
+import com.vaadin.server.ExternalResource;
+import com.vaadin.ui.Link;
 import com.vaadin.ui.Table;
 
 public class MembersTable extends Table {
@@ -14,7 +16,7 @@ public class MembersTable extends Table {
 	
 	public MembersTable(SQLContainer container){
 		setContainerDataSource(container);
-		setVisibleColumns(new String[] {"forname", "lastname","city", "phone"});
+		setVisibleColumns(new String[] {"forname", "lastname","city", "phone", "email"});
 	
 		addActionHandler(new Handler() {
 			
@@ -32,6 +34,20 @@ public class MembersTable extends Table {
 			@Override
 			public Action[] getActions(Object target, Object sender) {
 				return new Action[]{EDIT_ACTION, DELETE_ACTION, WTF_ACTION};
+			}
+		});
+		
+		addGeneratedColumn("email", new ColumnGenerator() {
+			
+			@Override
+			public Object generateCell(Table source, Object itemId, Object columnId) {
+				String email = (String)container.getContainerProperty(itemId, columnId).getValue();
+				
+				if (email == null || email.equals("")){
+					return null;
+				}
+				return new Link(email, new ExternalResource("mailto:"+email)); 
+					
 			}
 		});
 	
